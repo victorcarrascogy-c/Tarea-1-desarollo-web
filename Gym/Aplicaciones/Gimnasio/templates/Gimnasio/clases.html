@@ -1,0 +1,25 @@
+{% extends 'Gimnasio/base.html' %}
+{% block title %}Clases — SportCross{% endblock %}
+{% block content %}
+<div style="padding:40px; display:flex; flex-direction:column; gap:24px">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px">
+    <div style="display:flex; flex-direction:column; gap:6px"><div style="color:#1E293B; font-size:34px; font-weight:800">Clases e instructores</div><div style="color:#64748B; font-size:14px">Monitorea horarios, instructores y capacidad. Cálculo real: inscripciones activas frente a capacidad máxima.</div></div>
+    <a href="{% url 'Gimnasio:crear_clase' %}" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-size:13px; font-weight:700; text-decoration:none">+ Nueva Clase</a>
+  </div>
+  <div style="display:flex; gap:20px; flex-wrap:wrap">
+    {% for it in ocupacion %}
+    <div style="flex:1; min-width:300px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center; font-size:20px">{% if it.obj.nombre == 'Yoga' %}🧘{% elif it.obj.nombre == 'Running' %}🏃{% else %}🏋️{% endif %}</div>
+        {% if it.lleno %}<div style="background:#FEE2E2; padding:5px 9px; border-radius:999px"><span style="color:#DC2626; font-size:11px; font-weight:800">LLENO</span></div>{% else %}<span style="background:#DCFCE7; color:#16A34A; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">Activa</span>{% endif %}
+      </div>
+      <div style="color:#1E293B; font-size:20px; font-weight:800">{{ it.obj.nombre }}</div>
+      <div style="color:#64748B; font-size:14px">Instructor: {{ it.obj.instructor }}</div>
+      <div style="color:#64748B; font-size:13px">Capacidad: {{ it.obj.capacidad_maxima }} personas</div>
+      <div style="display:flex; flex-direction:column; gap:8px"><div style="color:{% if it.lleno %}#DC2626{% else %}#1E293B{% endif %}; font-size:13px; font-weight:700">{{ it.ocupados }}/{{ it.obj.capacidad_maxima }} ocupados — {{ it.pct }}%</div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:{{ it.pct }}%; height:8px; background:{% if it.lleno %}#DC2626{% else %}#2563EB{% endif %}; border-radius:999px"></div></div><div style="display:flex; justify-content:space-between; font-size:12px; color:#64748B"><span>{% if it.lleno %}Sin cupos{% else %}{{ it.libres }} cupos libres{% endif %}</span><span>{{ it.ocupados }} inscritos ACTIVA</span></div></div>
+      <a href="{% url 'Gimnasio:lista_inscripciones' %}?clase={{ it.obj.nombre }}" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; color:#1E293B; font-size:13px; font-weight:700; text-decoration:none; text-align:center">Ver Lista de Inscritos</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

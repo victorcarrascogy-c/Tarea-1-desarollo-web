@@ -1,0 +1,45 @@
+{% extends 'Gimnasio/base.html' %}
+{% block title %}Inscripciones — SportCross{% endblock %}
+{% block content %}
+<div style="padding:40px; display:flex; flex-direction:column; gap:24px">
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px"><div style="display:flex; flex-direction:column; gap:6px"><div style="color:#1E293B; font-size:34px; font-weight:800">Registro de inscripciones</div><div style="color:#64748B; font-size:14px">Controla la asistencia y el estado de cada inscripción. {{ inscripciones|length }} registros.</div></div><a href="{% url 'Gimnasio:crear_inscripcion' %}" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-size:13px; font-weight:700; text-decoration:none">+ Nueva Inscripción</a></div>
+  <form method="get" style="display:flex; gap:12px; flex-wrap:wrap; background:white; border:1px #E2E8F0 solid; border-radius:14px; padding:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04)">
+    <select name="estado" onchange="this.form.submit()" style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:13px; background:white"><option value="todos" {% if estado == 'todos' %}selected{% endif %}>Estado: Todos</option><option value="ACTIVA" {% if estado == 'ACTIVA' %}selected{% endif %}>ACTIVA</option><option value="CANCELADA" {% if estado == 'CANCELADA' %}selected{% endif %}>CANCELADA</option><option value="FINALIZADA" {% if estado == 'FINALIZADA' %}selected{% endif %}>FINALIZADA</option></select>
+    <select name="clase" onchange="this.form.submit()" style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:13px; background:white"><option value="todos" {% if clase_f == 'todos' %}selected{% endif %}>Clase: Todas</option>{% for c in clases %}<option value="{{ c.nombre }}" {% if clase_f == c.nombre %}selected{% endif %}>{{ c.nombre }}</option>{% endfor %}</select>
+    <input type="date" name="fecha" value="{{ fecha }}" onchange="this.form.submit()" style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:13px">
+    {% if estado != 'todos' or clase_f != 'todos' or fecha %}<a href="{% url 'Gimnasio:lista_inscripciones' %}" style="padding:0 16px; height:40px; display:grid; place-items:center; background:#F8F9FA; border:1px #E2E8F0 solid; border-radius:10px; font-size:13px; text-decoration:none; color:#1E293B">Limpiar</a>{% endif %}
+  </form>
+  <div id="loading-ins" style="display:none; padding:40px; text-align:center; color:#64748B; background:white; border:1px #E2E8F0 solid; border-radius:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04)"><div style="width:28px; height:28px; border:3px #E2E8F0 solid; border-top-color:#2563EB; border-radius:999px; margin:0 auto 12px; animation:spin 0.8s linear infinite"></div>Cargando inscripciones...</div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  <div style="background:white; border:1px #E2E8F0 solid; border-radius:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04); overflow:auto; -webkit-overflow-scrolling:touch">
+    {% if inscripciones %}
+    <table style="width:100%; border-collapse:collapse">
+      <thead><tr style="background:#F8F9FA"><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">ID</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Fecha</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Socio</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Clase</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Estado</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Acciones</th></tr></thead>
+      <tbody>
+        {% for ins in inscripciones %}
+        <tr style="border-bottom:1px #F1F5F9 solid">
+          <td style="padding:16px 20px; font-weight:700; color:#1E293B">#{{ ins.pk }}</td>
+          <td style="padding:16px 20px; font-size:13px">{{ ins.fecha_inscripcion|date:"d/m/Y" }}</td>
+          <td style="padding:16px 20px"><a href="{% url 'Gimnasio:detalle_socio' ins.socio.pk %}" style="color:#2563EB; font-weight:600; text-decoration:none">{{ ins.socio.nombre }}</a><br><span style="color:#64748B; font-size:11px">{{ ins.socio.rut }}</span></td>
+          <td style="padding:16px 20px">{{ ins.clase.nombre }}</td>
+          <td style="padding:16px 20px">{% if ins.estado == 'ACTIVA' %}<span style="background:#DCFCE7; color:#16A34A; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">ACTIVA</span>{% elif ins.estado == 'CANCELADA' %}<span style="background:#FEE2E2; color:#DC2626; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">CANCELADA</span>{% else %}<span style="background:#F1F5F9; color:#64748B; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800; border:1px #E2E8F0 solid">FINALIZADA</span>{% endif %}</td>
+          <td style="padding:16px 20px; display:flex; gap:8px; flex-wrap:wrap">
+            {% if ins.estado == 'ACTIVA' %}
+            <a href="{% url 'Gimnasio:cambiar_estado' ins.pk 'CANCELADA' %}" style="padding:6px 10px; background:white; border:1px #FEE2E2 solid; color:#DC2626; border-radius:8px; font-size:11px; font-weight:700; text-decoration:none">Cancelar</a>
+            <a href="{% url 'Gimnasio:cambiar_estado' ins.pk 'FINALIZADA' %}" style="padding:6px 10px; background:white; border:1px #E2E8F0 solid; border-radius:8px; font-size:11px; font-weight:700; text-decoration:none; color:#1E293B">Finalizar</a>
+            {% elif ins.estado == 'CANCELADA' %}
+            <a href="{% url 'Gimnasio:cambiar_estado' ins.pk 'ACTIVA' %}" style="padding:6px 10px; background:#DCFCE7; border:1px #86EFAC solid; color:#14532D; border-radius:8px; font-size:11px; font-weight:700; text-decoration:none">Reactivar</a>
+            {% else %}
+            <span style="color:#94A3B8; font-size:12px">—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div style="padding:48px; text-align:center; color:#64748B"><div style="font-weight:700; color:#1E293B">Sin inscripciones</div><p>Prueba otros filtros o <a href="{% url 'Gimnasio:crear_inscripcion' %}" style="color:#2563EB; font-weight:700">crea la primera</a>.</p></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

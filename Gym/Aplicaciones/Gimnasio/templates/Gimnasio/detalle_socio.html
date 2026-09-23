@@ -1,0 +1,44 @@
+{% extends 'Gimnasio/base.html' %}
+{% block title %}Detalle {{ socio.nombre }} — SportCross{% endblock %}
+{% block content %}
+<div style="padding:40px; display:flex; flex-direction:column; gap:24px">
+  <div style="display:flex; align-items:center; gap:12px"><a href="{% url 'Gimnasio:lista_socios' %}" style="padding:8px 12px; background:white; border:1px #E2E8F0 solid; border-radius:10px; text-decoration:none; color:#1E293B; font-weight:700; font-size:13px">← Socios</a><span style="color:#64748B; font-size:13px">/ {{ socio.nombre }}</span></div>
+  <div style="padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap">
+      <div style="width:52px; height:52px; background:#EFF6FF; border-radius:999px; display:grid; place-items:center"><span style="color:#2563EB; font-size:20px; font-weight:800">{{ socio.nombre|slice:":2"|upper }}</span></div>
+      <div style="flex:1"><div style="color:#1E293B; font-size:20px; font-weight:800">Detalle de Socio — {{ socio.nombre }}</div><div style="color:#64748B; font-size:13px">RUT {{ socio.rut }} · {{ socio.email }}</div></div>
+      <a href="{% url 'Gimnasio:editar_socio' socio.pk %}" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; font-weight:700; text-decoration:none; color:#1E293B">Editar</a>
+    </div>
+    <div style="display:flex; gap:16px; flex-wrap:wrap">
+      <div style="flex:1; min-width:180px; padding:14px; background:#F1F5F9; border-radius:10px"><div style="color:#64748B; font-size:11px; font-weight:700; letter-spacing:.04em">EMAIL</div><div style="color:#1E293B; font-size:13px; font-weight:700">{{ socio.email }}</div></div>
+      <div style="flex:1; min-width:180px; padding:14px; background:#F1F5F9; border-radius:10px"><div style="color:#64748B; font-size:11px; font-weight:700">PLAN</div><div style="color:#1E293B; font-size:13px; font-weight:700">Plan {{ socio.plan.nombre }} — ${{ socio.plan.precio }}</div></div>
+      <div style="flex:1; min-width:180px; padding:14px; background:#F1F5F9; border-radius:10px"><div style="color:#64748B; font-size:11px; font-weight:700">COSTO DIARIO</div><div style="color:#2563EB; font-size:13px; font-weight:800">${{ socio.plan.costo_diario }}/día · {{ socio.plan.duracion_dias }} días</div></div>
+    </div>
+  </div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap">
+    <div style="flex:1; min-width:340px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Historial de Inscripciones ({{ inscripciones|length }})</div>
+      {% if inscripciones %}
+      <div style="border:1px #E2E8F0 solid; border-radius:10px; overflow:hidden">
+        <div style="display:flex; gap:16px; padding:12px 16px; background:#F1F5F9; border-bottom:1px #E2E8F0 solid"><span style="flex:1; color:#64748B; font-size:11px; font-weight:700">Clase</span><span style="flex:1; color:#64748B; font-size:11px; font-weight:700">Fecha</span><span style="flex:1; color:#64748B; font-size:11px; font-weight:700">Estado</span></div>
+        {% for ins in inscripciones %}
+        <div style="display:flex; gap:16px; padding:14px 16px; border-bottom:1px #F1F5F9 solid; align-items:center"><span style="flex:1; color:#1E293B; font-size:13px">{{ ins.clase.nombre }}<br><span style="color:#64748B; font-size:11px">{{ ins.clase.instructor }}</span></span><span style="flex:1; color:#1E293B; font-size:13px">{{ ins.fecha_inscripcion|date:"d/m/Y" }}</span><span style="flex:1">{% if ins.estado == 'ACTIVA' %}<span style="background:#DCFCE7; color:#16A34A; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">ACTIVA</span>{% elif ins.estado == 'CANCELADA' %}<span style="background:#FEE2E2; color:#DC2626; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">CANCELADA</span>{% else %}<span style="background:#F1F5F9; color:#64748B; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800; border:1px #E2E8F0 solid">FINALIZADA</span>{% endif %}</span></div>
+        {% endfor %}
+      </div>
+      {% else %}<div style="padding:24px; text-align:center; color:#64748B; border:1px #E2E8F0 dashed; border-radius:10px">Sin inscripciones aún.</div>{% endif %}
+    </div>
+    <div style="flex:1; min-width:340px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">+ Inscribir a Nueva Clase</div>
+      <form method="post" style="display:flex; flex-direction:column; gap:12px">
+        {% csrf_token %}
+        {{ form.socio }}
+        {% if form.non_field_errors %}<div style="padding:10px; background:#FEE2E2; border:1px #FECACA solid; border-radius:10px; color:#7F1D1D; font-size:13px; font-weight:600">{{ form.non_field_errors }}</div>{% endif %}
+        <div style="display:flex; flex-direction:column; gap:6px"><label style="font-size:11px; font-weight:700; color:#64748B; letter-spacing:.04em">CLASE</label>{{ form.clase }}{% if form.clase.errors %}<span style="color:#DC2626; font-size:12px">{{ form.clase.errors|striptags }}</span>{% endif %}</div>
+        <div style="display:flex; flex-direction:column; gap:6px"><label style="font-size:11px; font-weight:700; color:#64748B">ESTADO</label>{{ form.estado }}</div>
+        <div style="display:flex; gap:8px; align-items:center; background:#F1F5F9; border:1px #E2E8F0 solid; border-radius:10px; padding:10px 12px"><span style="color:#16A34A; font-size:13px">Se verificará la capacidad máxima (ACTIVA) antes de confirmar.</span></div>
+        <button type="submit" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter; align-self:flex-start">Confirmar Inscripción</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'Gimnasio/base.html' %}
+{% block content %}
+<div style="padding:40px; max-width:520px; margin:0 auto">
+  <div style="background:white; border:1px #E2E8F0 solid; border-radius:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04); padding:24px; display:flex; flex-direction:column; gap:16px">
+    <div style="color:#1E293B; font-size:20px; font-weight:800">Eliminar {{ tipo }}</div>
+    <p style="color:#64748B; font-size:14px">¿Seguro que deseas eliminar <strong style="color:#1E293B">{{ obj }}</strong>? {% if tipo == 'Socio' %}Sus inscripciones (CASCADE) también se eliminarán.{% endif %} Esta acción no se puede deshacer.</p>
+    <form method="post" style="display:flex; gap:10px; justify-content:flex-end">
+      {% csrf_token %}
+      <a href="{% url cancel_url %}" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; font-weight:700; text-decoration:none; color:#1E293B">Cancelar</a>
+      <button type="submit" style="padding:10px 16px; background:#DC2626; border:none; border-radius:10px; color:white; font-weight:700; cursor:pointer">Eliminar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}SportCross{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'Gimnasio/css/prototipo.css' %}?v=4">
+<style>
+*{box-sizing:border-box}
+body{margin:0; font-family:'Inter',sans-serif; background:#F8F9FA; overflow-x:hidden}
+.page{width:100%; max-width:100%; margin:0; background:#F8F9FA; min-height:100vh}
+@media(max-width:768px){
+  header{padding:0 16px !important}
+  header nav{gap:12px !important}
+  main > div{padding:20px !important}
+  table{font-size:13px}
+  th, td{padding:10px 12px !important}
+}
+@media(max-width:640px){
+  .page header{flex-wrap:wrap; height:auto !important; padding:12px 16px !important; gap:12px}
+}
+.messages{position:fixed; top:80px; right:20px; z-index:70; display:flex; flex-direction:column; gap:10px}
+.msg{padding:12px 16px; border-radius:10px; font-size:13px; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,.12); border:1px solid #E2E8F0}
+.msg-success{background:#DCFCE7; color:#14532D; border-color:#86EFAC}
+.msg-error{background:#FEE2E2; color:#7F1D1D; border-color:#FECACA}
+</style>
+</head>
+<body>
+<div class="page">
+<header style="height:72px; padding:0 40px; background:white; border-bottom:1px #E2E8F0 solid; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:40">
+  <a href="{% url 'Gimnasio:home' %}" style="display:flex; align-items:center; gap:10px; text-decoration:none">
+    <div style="width:34px; height:34px; background:#2563EB; border-radius:10px; display:grid; place-items:center; color:white; font-weight:800; font-size:12px; border:1px solid white">◆</div>
+    <span style="color:#1E293B; font-size:18px; font-weight:800">SportCross</span>
+  </a>
+  {% if user.is_authenticated and user.is_staff %}
+  <nav style="display:flex; gap:28px; align-items:center">
+    <a href="{% url 'Gimnasio:home' %}" style="color:{% if request.resolver_match.url_name == 'home' %}#2563EB{% else %}#64748B{% endif %}; font-size:14px; font-weight:{% if request.resolver_match.url_name == 'home' %}700{% else %}500{% endif %}; text-decoration:none; border-bottom:{% if request.resolver_match.url_name == 'home' %}2px solid #2563EB{% else %}none{% endif %}; padding-bottom:2px">Inicio</a>
+    <a href="{% url 'Gimnasio:lista_planes' %}" style="color:{% if request.resolver_match.url_name == 'lista_planes' %}#2563EB{% else %}#64748B{% endif %}; font-size:14px; font-weight:{% if request.resolver_match.url_name == 'lista_planes' %}700{% else %}500{% endif %}; text-decoration:none; border-bottom:{% if request.resolver_match.url_name == 'lista_planes' %}2px solid #2563EB{% else %}none{% endif %}; padding-bottom:2px">Planes</a>
+    <a href="{% url 'Gimnasio:lista_socios' %}" style="color:{% if 'socio' in request.resolver_match.url_name %}#2563EB{% else %}#64748B{% endif %}; font-size:14px; font-weight:{% if 'socio' in request.resolver_match.url_name %}700{% else %}500{% endif %}; text-decoration:none; border-bottom:{% if 'socio' in request.resolver_match.url_name %}2px solid #2563EB{% else %}none{% endif %}; padding-bottom:2px">Socios</a>
+    <a href="{% url 'Gimnasio:lista_clases' %}" style="color:{% if 'clase' in request.resolver_match.url_name %}#2563EB{% else %}#64748B{% endif %}; font-size:14px; font-weight:{% if 'clase' in request.resolver_match.url_name %}700{% else %}500{% endif %}; text-decoration:none; border-bottom:{% if 'clase' in request.resolver_match.url_name %}2px solid #2563EB{% else %}none{% endif %}; padding-bottom:2px">Clases</a>
+    <a href="{% url 'Gimnasio:lista_inscripciones' %}" style="color:{% if 'inscripcion' in request.resolver_match.url_name %}#2563EB{% else %}#64748B{% endif %}; font-size:14px; font-weight:{% if 'inscripcion' in request.resolver_match.url_name %}700{% else %}500{% endif %}; text-decoration:none; border-bottom:{% if 'inscripcion' in request.resolver_match.url_name %}2px solid #2563EB{% else %}none{% endif %}; padding-bottom:2px">Inscripciones</a>
+  </nav>
+  <div style="display:flex; align-items:center; gap:16px">
+    <span style="color:#64748B; font-size:14px">Hola, {{ user.username }}</span>
+    <a href="{% url 'Gimnasio:logout' %}" style="padding:10px 16px; background:white; border-radius:10px; border:1px #E2E8F0 solid; color:#1E293B; font-size:13px; font-weight:700; text-decoration:none">Cerrar Sesión</a>
+  </div>
+  {% else %}
+  <!-- Público Sportlife: solo Planes + Admin en esquina -->
+  <nav style="display:flex; gap:28px; align-items:center">
+    <a href="{% url 'Gimnasio:lista_planes' %}" style="color:#2563EB; font-size:14px; font-weight:700; text-decoration:none; border-bottom:2px solid #2563EB; padding-bottom:2px">Planes</a>
+    <span style="color:#64748B; font-size:13px">Clases: Yoga · Running · Pesas</span>
+  </nav>
+  <div style="display:flex; align-items:center; gap:12px">
+    <a href="{% url 'Gimnasio:login' %}" style="font-size:12px; color:#94A3B8; text-decoration:none; border:1px #E2E8F0 solid; padding:6px 10px; border-radius:999px">Admin</a>
+  </div>
+  {% endif %}
+</header>
+{% if messages %}
+<div class="messages">
+  {% for m in messages %}<div class="msg {% if m.tags == 'error' %}msg-error{% else %}msg-success{% endif %}">{{ m }}</div>{% endfor %}
+</div>
+{% endif %}
+<main style="background:#F8F9FA; min-height:calc(100vh - 72px)">
+{% block content %}{% endblock %}
+</main>
+</div>
+<script>
+setTimeout(()=>{document.querySelectorAll('.msg').forEach(e=>e.style.display='none')},3500);
+</script>
+<script src="{% static 'Gimnasio/js/validacion.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingresar — SportCross</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0; font-family:'Inter',sans-serif; background:#F8F9FA; display:grid; place-items:center; min-height:100vh; padding:20px}
+.card{width:min(420px,100%); background:white; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.12); border:1px #E2E8F0 solid}
+.head{padding:28px 28px 0; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center}
+.badge{width:40px; height:40px; background:#2563EB; border-radius:10px; display:grid; place-items:center; color:white; font-weight:800; font-size:16px}
+.form{padding:20px 28px 28px; display:flex; flex-direction:column; gap:14px}
+.input{height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:14px; width:100%; font-family:Inter}
+.input:focus{outline:none; border-color:#2563EB; box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.btn{height:42px; border:none; border-radius:10px; font-weight:700; cursor:pointer; font-family:Inter}
+.btn-primary{background:#2563EB; color:white}
+.alert{padding:10px 12px; border-radius:10px; font-size:13px; font-weight:600; border:1px solid}
+.alert-error{background:#FEE2E2; color:#7F1D1D; border-color:#FECACA}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <span class="badge">◆</span>
+    <div style="font-weight:800; font-size:20px; color:#1E293B">SportCross</div>
+    <div style="color:#64748B; font-size:13px">Acceso exclusivo para administradores</div>
+  </div>
+  <form method="post" class="form">
+    {% csrf_token %}
+    <input type="hidden" name="tipo" value="admin">
+    {% if error_admin %}<div class="alert alert-error">{{ error_admin }}</div>{% endif %}
+    {% if messages %}{% for m in messages %}<div class="alert alert-error">{{ m }}</div>{% endfor %}{% endif %}
+    <div style="display:flex; flex-direction:column; gap:6px"><label style="font-size:11px; font-weight:700; color:#64748B; letter-spacing:.04em">USUARIO</label><input class="input" name="username" placeholder="admin" required></div>
+    <div style="display:flex; flex-direction:column; gap:6px"><label style="font-size:11px; font-weight:700; color:#64748B">CONTRASEÑA</label><input class="input" type="password" name="password" placeholder="••••••••" required></div>
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+    <a href="/" style="text-align:center; font-size:12px; color:#64748B; text-decoration:none">← Volver a planes</a>
+  </form>
+</div>
+<script src="{% static 'Gimnasio/js/validacion.js' %}"></script>
+</body>
+</html>

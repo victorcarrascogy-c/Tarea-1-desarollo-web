@@ -1,0 +1,5 @@
+/* Gym - estilos base */
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+nav { background: #222; padding: 1rem; }
+nav a { color: #fff; text-decoration: none; margin-right: 1rem; }
+main { padding: 2rem; }

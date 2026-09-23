@@ -1,0 +1,54 @@
+{% extends 'Gimnasio/base.html' %}
+{% block title %}Planes — SportCross{% endblock %}
+{% block content %}
+<div style="padding:40px; display:flex; flex-direction:column; gap:24px">
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px">
+    <div style="display:flex; flex-direction:column; gap:6px"><div style="color:#1E293B; font-size:34px; font-weight:800">Planes y Membresías</div><div style="color:#64748B; font-size:14px">Elige la membresía que mejor se adapte a ti. Datos reales de la base de datos.</div></div>
+    {% if user.is_authenticated and user.is_staff %}<a href="{% url 'Gimnasio:crear_plan' %}" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-size:13px; font-weight:700; text-decoration:none">+ Nuevo Plan</a>{% endif %}
+  </div>
+  <div style="display:flex; gap:16px; flex-wrap:wrap" id="planes-grid">
+    {% for p in planes %}
+    <div id="plan-{{ p.pk }}" onclick="selectPlan({{ p.pk }})" style="flex:1; min-width:240px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px; cursor:pointer; transition:.15s">
+      <div style="display:flex; flex-direction:column; gap:10px">
+        {% if p.nombre == 'Trimestral' %}<div style="background:#FEF3C7; padding:5px 9px; border-radius:999px; align-self:flex-start"><span style="color:#D97706; font-size:11px; font-weight:800">MÁS POPULAR</span></div>{% endif %}
+        <div style="color:#1E293B; font-size:20px; font-weight:800">Plan {{ p.nombre }}</div>
+        <div><span style="color:#2563EB; font-size:30px; font-weight:800">${{ p.precio }}</span> <span style="color:#64748B; font-size:14px">/ {{ p.duracion_dias }} días</span></div>
+      </div>
+      <div style="background:#F1F5F9; border:1px #E2E8F0 solid; border-radius:10px; padding:10px 12px; display:flex; justify-content:space-between; font-size:13px"><span style="color:#64748B">Costo diario</span><strong style="color:#1E293B">${{ p.costo_diario }}/día</strong></div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Acceso completo al gimnasio</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Clases grupales incluidas</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Evaluación física inicial</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Soporte SportCross</span></div>
+      </div>
+      <a href="{% url 'Gimnasio:registro' %}?plan={{ p.pk }}" onclick="selectPlan({{ p.pk }}); " style="margin-top:auto; padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; color:#1E293B; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter; transition:.15s; text-decoration:none; text-align:center; display:block" data-btn>Seleccionar Plan</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script>
+function selectPlan(id){
+  document.querySelectorAll('#planes-grid > div').forEach(el=>{
+    el.style.borderColor='#E2E8F0';
+    el.style.boxShadow='0px 2px 10px rgba(15,23,42,0.04)';
+    const btn=el.querySelector('[data-btn]');
+    if(btn){btn.style.background='white'; btn.style.color='#1E293B'; btn.style.border='1px #E2E8F0 solid'}
+  });
+  const sel=document.getElementById('plan-'+id);
+  if(sel){
+    sel.style.borderColor='#2563EB';
+    sel.style.boxShadow='0 0 0 1px #2563EB, 0px 2px 10px rgba(15,23,42,0.04)';
+    const btn=sel.querySelector('[data-btn]');
+    if(btn){btn.style.background='#2563EB'; btn.style.color='white'; btn.style.border='1px #2563EB solid'}
+  }
+  // guardar en localStorage para preselección en form (opcional)
+  try{localStorage.setItem('plan_sel', id)}catch(e){}
+}
+// si viene ?plan en URL, marcar
+(function(){
+  const params=new URLSearchParams(location.search);
+  const pid=params.get('plan_sel');
+  if(pid) selectPlan(pid);
+})();
+</script>
+{% endblock %}

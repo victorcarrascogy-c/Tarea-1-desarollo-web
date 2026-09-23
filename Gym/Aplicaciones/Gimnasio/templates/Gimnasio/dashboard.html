@@ -1,0 +1,90 @@
+{% extends 'Gimnasio/base.html' %}
+{% block title %}Inicio — SportCross{% endblock %}
+{% block content %}
+<div style="padding:40px; display:flex; flex-direction:column; gap:24px">
+  <div style="display:flex; flex-direction:column; gap:6px">
+    <div style="color:#1E293B; font-size:34px; font-weight:800">¡Hola, Admin!</div>
+    <div style="color:#64748B; font-size:14px">Este es el resumen de tu gimnasio hoy, {% now "j \\d\\e F \\d\\e Y" %}.
+    </div>
+  </div>
+  <div style="display:flex; gap:16px; flex-wrap:wrap">
+    <div
+      style="flex:1; min-width:220px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span style="color:#64748B; font-size:13px">Socios activos</span><span style="color:#1E293B; font-size:28px; font-weight:800">{{ socios_activos }}</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center">
+          👥</div>
+      </div>
+      <span style="color:#16A34A; font-size:12px; font-weight:600">Total de socios</span>
+    </div>
+    <div
+      style="flex:1; min-width:220px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span
+            style="color:#64748B; font-size:13px">Inscripciones de hoy</span><span
+            style="color:#1E293B; font-size:28px; font-weight:800">{{ inscripciones_hoy }}</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center">
+          📅</div>
+      </div>
+      <span style="color:#64748B; font-size:12px">Registros de hoy</span>
+    </div>
+    <div
+      style="flex:1; min-width:220px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span style="color:#64748B; font-size:13px">Ingresos estimados</span><span style="color:#1E293B; font-size:28px; font-weight:800">${{ ingresos_estimados }}</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center">
+          💰</div>
+      </div>
+      <span style="color:#64748B; font-size:12px">Suma de planes contratados</span>
+    </div>
+    <div
+      style="flex:1; min-width:220px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span style="color:#64748B; font-size:13px">Capacidad de clases</span><span style="color:#1E293B; font-size:28px; font-weight:800">{{ capacidad_pct }}%</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center">
+          📊</div>
+      </div>
+      <span style="color:#64748B; font-size:12px">{{ ocupados }}/{{ total_capacidad }} cupos ocupados (inscripciones activas)</span>
+    </div>
+  </div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap">
+    <div
+      style="flex:1; min-width:320px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Planes más vendidos</div>
+      {% for p in planes_rank %}
+      <div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px"><span
+            style="color:#1E293B; font-size:14px">{{ p.nombre }}</span><span
+            style="color:#2563EB; font-size:13px; font-weight:700">{{ p.ventas }} ventas</span></div>
+        <div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden">
+          <div
+            style="width:{% if p.ventas %}{% widthratio p.ventas planes_rank.0.ventas 100 %}%{% else %}5%{% endif %}; height:8px; background:#2563EB; border-radius:999px">
+          </div>
+        </div>
+      </div>
+      {% empty %}<span style="color:#64748B; font-size:13px">Sin ventas aún. Registra tu primer socio.</span>{% endfor %}
+    </div>
+    <div
+      style="flex:1; min-width:320px; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Próximas clases</div>
+      {% for it in ocupacion %}
+      <div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+          <div>
+            <div style="color:#1E293B; font-size:14px; font-weight:700">{{ it.obj.nombre }}</div>
+            <div style="color:#64748B; font-size:13px">{{ it.obj.instructor }}</div>
+          </div><span
+            style="color:{% if it.lleno %}#DC2626{% else %}#64748B{% endif %}; font-size:13px; font-weight:{% if it.lleno %}700{% else %}400{% endif %}">{{
+            it.ocupados }}/{{ it.obj.capacidad_maxima }} cupos{% if it.lleno %} — LLENO{% endif %}</span>
+        </div>
+        <div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden">
+          <div
+            style="width:{{ it.pct }}%; height:8px; background:{% if it.lleno %}#DC2626{% else %}#2563EB{% endif %}; border-radius:999px">
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

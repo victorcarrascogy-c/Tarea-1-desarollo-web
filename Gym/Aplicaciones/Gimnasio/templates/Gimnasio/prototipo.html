@@ -1,0 +1,347 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SportCross — Prototipo Fiel Plantilla v4 21/09/2026</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box} body{margin:0; font-family:'Inter',sans-serif; background:#F8F9FA}
+.page{width:100%; max-width:100%; margin:0; background:#F8F9FA; min-height:100vh}
+.nav-link{cursor:pointer; transition:.15s}
+.nav-link:hover{opacity:.8}
+.section{display:none}
+.section.active{display:flex; flex-direction:column}
+::-webkit-scrollbar{width:8px; height:8px} ::-webkit-scrollbar-thumb{background:#E2E8F0; border-radius:999px}
+@media(max-width:900px){
+  .kpis{flex-direction:column !important}
+  .widgets{flex-direction:column !important}
+  .planes-grid{flex-direction:column !important}
+  .clases-grid{flex-direction:column !important}
+  .detalle-cols{flex-direction:column !important}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<!-- HEADER (fiel plantilla: 72px, px 40, bg white, border #E2E8F0) -->
+<header style="align-self:stretch; height:72px; padding:0 40px; background:white; border-bottom:1px #E2E8F0 solid; display:flex; justify-content:space-between; align-items:center">
+  <div style="display:flex; align-items:center; gap:10px; cursor:pointer" onclick="navigate('inicio')">
+    <div style="width:34px; height:34px; background:#2563EB; border-radius:10px; display:flex; justify-content:center; align-items:center">
+      <div style="width:20px; height:20px; display:grid; place-items:center; color:white; font-weight:800; font-size:12px; border:1px solid white; border-radius:2px">◆</div>
+    </div>
+    <span style="color:#1E293B; font-size:18px; font-weight:800">SportCross</span>
+  </div>
+  <nav style="display:flex; gap:28px; align-items:center">
+    <span class="nav-link" data-view="inicio" onclick="navigate('inicio')" style="color:#2563EB; font-size:14px; font-weight:700; border-bottom:2px solid #2563EB; padding-bottom:2px">Inicio</span>
+    <span class="nav-link" data-view="planes" onclick="navigate('planes')" style="color:#64748B; font-size:14px; font-weight:500">Planes</span>
+    <span class="nav-link" data-view="socios" onclick="navigate('socios')" style="color:#64748B; font-size:14px; font-weight:500">Socios</span>
+    <span class="nav-link" data-view="clases" onclick="navigate('clases')" style="color:#64748B; font-size:14px; font-weight:500">Clases</span>
+    <span class="nav-link" data-view="inscripciones" onclick="navigate('inscripciones')" style="color:#64748B; font-size:14px; font-weight:500">Inscripciones</span>
+    <span class="nav-link" data-view="detalle" onclick="navigate('detalle')" style="color:#64748B; font-size:14px; font-weight:500">Detalle</span>
+  </nav>
+  <div style="display:flex; align-items:center; gap:16px">
+    <span style="color:#64748B; font-size:14px; font-weight:400">Hola, Admin</span>
+    <button onclick="toast('Sesión cerrada')" style="padding:10px 16px; background:white; border-radius:10px; border:1px #E2E8F0 solid; color:#1E293B; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Cerrar Sesión</button>
+  </div>
+</header>
+
+<!-- MOCKUP 1: DASHBOARD (fiel plantilla con 428, 36, 12.480.000, 68%) -->
+<section id="view-inicio" class="section active" style="background:#F8F9FA; padding:40px; gap:24px">
+  <div style="display:flex; flex-direction:column; gap:6px">
+    <div style="color:#1E293B; font-size:34px; font-weight:800">¡Hola, Admin!</div>
+    <div style="color:#64748B; font-size:14px; font-weight:400">Este es el resumen de tu gimnasio hoy, 21 de septiembre de 2026.</div>
+  </div>
+  <!-- KPIs -->
+  <div class="kpis" style="display:flex; gap:16px">
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span style="color:#64748B; font-size:13px; font-weight:400">Socios activos</span><span style="color:#1E293B; font-size:28px; font-weight:800">428</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center; font-size:20px">👥</div>
+      </div>
+    </div>
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span style="color:#64748B; font-size:13px">Inscripciones de hoy</span><span style="color:#1E293B; font-size:28px; font-weight:800">36</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center; font-size:20px">📅</div>
+      </div>
+    </div>
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span style="color:#64748B; font-size:13px">Ingresos estimados</span><span style="color:#1E293B; font-size:28px; font-weight:800">$12.480.000</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center; font-size:20px">💰</div>
+      </div>
+    </div>
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="display:flex; flex-direction:column; gap:8px"><span style="color:#64748B; font-size:13px">Capacidad de clases</span><span style="color:#1E293B; font-size:28px; font-weight:800">68%</span></div>
+        <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center; font-size:20px">📊</div>
+      </div>
+    </div>
+  </div>
+  <!-- Widgets -->
+  <div class="widgets" style="display:flex; gap:24px">
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Planes más vendidos</div>
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div><div style="display:flex; justify-content:space-between; margin-bottom:6px"><span style="color:#1E293B; font-size:14px">Mensual</span><span style="color:#2563EB; font-size:13px; font-weight:700">72 ventas</span></div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:68%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+        <div><div style="display:flex; justify-content:space-between; margin-bottom:6px"><span style="color:#1E293B; font-size:14px">Trimestral</span><span style="color:#2563EB; font-size:13px; font-weight:700">58 ventas</span></div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:55%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+        <div><div style="display:flex; justify-content:space-between; margin-bottom:6px"><span style="color:#1E293B; font-size:14px">Semestral</span><span style="color:#2563EB; font-size:13px; font-weight:700">39 ventas</span></div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:37%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+        <div><div style="display:flex; justify-content:space-between; margin-bottom:6px"><span style="color:#1E293B; font-size:14px">Anual</span><span style="color:#2563EB; font-size:13px; font-weight:700">46 ventas</span></div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:43%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+      </div>
+    </div>
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Próximas clases</div>
+      <div style="display:flex; flex-direction:column; gap:16px">
+        <div><div style="display:flex; justify-content:space-between; margin-bottom:8px"><div><div style="color:#1E293B; font-size:14px; font-weight:700">Yoga</div><div style="color:#64748B; font-size:13px">Ana Torres</div></div><span style="color:#64748B; font-size:13px">12/20 cupos</span></div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:60%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+        <div><div style="display:flex; justify-content:space-between; margin-bottom:8px"><div><div style="color:#1E293B; font-size:14px; font-weight:700">Running</div><div style="color:#64748B; font-size:13px">Carlos Rojas</div></div><span style="color:#64748B; font-size:13px">18/30 cupos</span></div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:60%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+        <div><div style="display:flex; justify-content:space-between; margin-bottom:8px"><div><div style="color:#1E293B; font-size:14px; font-weight:700">Pesas</div><div style="color:#64748B; font-size:13px">Jorge Muñoz</div></div><span style="color:#64748B; font-size:13px">25/25 cupos</span></div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:100%; height:8px; background:#DC2626; border-radius:999px"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUP 2: PLANES (fiel plantilla) -->
+<section id="view-planes" class="section" style="background:#F8F9FA; padding:40px; gap:24px">
+  <div style="display:flex; flex-direction:column; gap:6px">
+    <div style="color:#1E293B; font-size:34px; font-weight:800">Planes y Membresías</div>
+    <div style="color:#64748B; font-size:14px">Elige la membresía que mejor se adapta a cada socio.</div>
+  </div>
+  <div class="planes-grid" style="display:flex; gap:16px">
+    <!-- Mensual -->
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; flex-direction:column; gap:10px"><div style="color:#1E293B; font-size:20px; font-weight:800">Plan Mensual</div><div><span style="color:#2563EB; font-size:30px; font-weight:800">$30.000</span> <span style="color:#64748B; font-size:14px">/ 30 días</span></div></div>
+      <div style="color:#1E293B; font-size:13px; font-weight:700">Costo diario: $1.000/día</div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Acceso completo al gimnasio</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Clases grupales incluidas</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Evaluación física inicial</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Soporte del equipo SportCross</span></div>
+      </div>
+      <button onclick="toast('Plan Mensual seleccionado')" style="margin-top:auto; padding:10px 16px; background:#2563EB; border-radius:10px; border:none; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Seleccionar Plan</button>
+    </div>
+    <!-- Trimestral POPULAR -->
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px; position:relative">
+      <div style="display:flex; flex-direction:column; gap:10px"><div style="background:#FEF3C7; padding:5px 9px; border-radius:999px; align-self:flex-start"><span style="color:#D97706; font-size:11px; font-weight:800">MÁS POPULAR</span></div><div style="color:#1E293B; font-size:20px; font-weight:800">Plan Trimestral</div><div><span style="color:#2563EB; font-size:30px; font-weight:800">$80.000</span> <span style="color:#64748B; font-size:14px">/ 90 días</span></div></div>
+      <div style="color:#1E293B; font-size:13px; font-weight:700">Costo diario: $889/día</div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Acceso completo al gimnasio</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Clases grupales incluidas</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Evaluación física inicial</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Soporte del equipo SportCross</span></div>
+      </div>
+      <button onclick="toast('Plan Trimestral seleccionado')" style="margin-top:auto; padding:10px 16px; background:#2563EB; border-radius:10px; border:none; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Seleccionar Plan</button>
+    </div>
+    <!-- Semestral -->
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; flex-direction:column; gap:10px"><div style="color:#1E293B; font-size:20px; font-weight:800">Plan Semestral</div><div><span style="color:#2563EB; font-size:30px; font-weight:800">$150.000</span> <span style="color:#64748B; font-size:14px">/ 180 días</span></div></div>
+      <div style="color:#1E293B; font-size:13px; font-weight:700">Costo diario: $833/día</div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Acceso completo al gimnasio</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Clases grupales incluidas</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Evaluación física inicial</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Soporte del equipo SportCross</span></div>
+      </div>
+      <button onclick="toast('Plan Semestral seleccionado')" style="margin-top:auto; padding:10px 16px; background:#2563EB; border-radius:10px; border:none; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Seleccionar Plan</button>
+    </div>
+    <!-- Anual -->
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; flex-direction:column; gap:10px"><div style="color:#1E293B; font-size:20px; font-weight:800">Plan Anual</div><div><span style="color:#2563EB; font-size:30px; font-weight:800">$280.000</span> <span style="color:#64748B; font-size:14px">/ 365 días</span></div></div>
+      <div style="color:#1E293B; font-size:13px; font-weight:700">Costo diario: $767/día</div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Acceso completo al gimnasio</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Clases grupales incluidas</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Evaluación física inicial</span></div>
+        <div style="display:flex; gap:10px; align-items:center"><span style="width:16px; height:16px; border:1px #16A34A solid; border-radius:999px; display:grid; place-items:center; color:#16A34A; font-size:10px">✓</span><span style="color:#64748B; font-size:13px">Soporte del equipo SportCross</span></div>
+      </div>
+      <button onclick="toast('Plan Anual seleccionado')" style="margin-top:auto; padding:10px 16px; background:#2563EB; border-radius:10px; border:none; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Seleccionar Plan</button>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUP 3: SOCIOS (estilo plantilla) -->
+<section id="view-socios" class="section" style="background:#F8F9FA; padding:40px; gap:24px">
+  <div style="display:flex; justify-content:space-between; align-items:center">
+    <div style="display:flex; flex-direction:column; gap:6px"><div style="color:#1E293B; font-size:34px; font-weight:800">Administración de socios</div><div style="color:#64748B; font-size:14px">Gestiona membresías — filtrado por plan, RUT y estado.</div></div>
+    <button onclick="openModal('modal-socio')" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">+ Registrar Nuevo Socio</button>
+  </div>
+  <div style="display:flex; gap:12px; flex-wrap:wrap; background:white; border:1px #E2E8F0 solid; border-radius:14px; padding:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04)">
+    <select id="filtro-plan" onchange="filtrarSocios()" style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:13px; background:white"><option value="todos">Filtrar por plan — Todos</option><option>Mensual</option><option>Trimestral</option><option>Semestral</option><option>Anual</option></select>
+    <input id="busca-socio" placeholder="Buscar por nombre o RUT..." oninput="filtrarSocios()" style="flex:1; min-width:220px; height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:13px">
+    <select style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:13px; background:white"><option>Estado: Todos</option><option>Activos</option></select>
+  </div>
+  <div style="background:white; border:1px #E2E8F0 solid; border-radius:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04); overflow:auto; -webkit-overflow-scrolling:touch">
+    <table style="width:100%; border-collapse:collapse">
+      <thead><tr style="background:#F8F9FA"><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; letter-spacing:.06em; border-bottom:1px #E2E8F0 solid">Nombre</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">RUT</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Correo electrónico</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Plan</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Acciones</th></tr></thead>
+      <tbody id="tabla-socios">
+        <tr data-plan="Anual" data-nombre="juan perez" data-rut="12.345.678-9" style="border-bottom:1px #F1F5F9 solid"><td style="padding:16px 20px; display:flex; gap:12px; align-items:center"><span style="width:36px; height:36px; background:#EFF6FF; border-radius:999px; display:grid; place-items:center; font-weight:700; font-size:12px; color:#2563EB">JP</span><span style="font-weight:700; color:#1E293B">Juan Pérez</span></td><td style="padding:16px 20px; font-size:13px; color:#1E293B">12.345.678-9</td><td style="padding:16px 20px; font-size:13px; color:#64748B">juan@mail.cl</td><td style="padding:16px 20px"><span style="background:#DCFCE7; color:#16A34A; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:800">Plan Anual</span></td><td style="padding:16px 20px"><button style="padding:6px 10px; background:white; border:1px #E2E8F0 solid; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer">Editar</button> <button onclick="toast('Eliminado')" style="padding:6px 10px; background:white; border:1px #FEE2E2 solid; color:#DC2626; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer">Eliminar</button></td></tr>
+        <tr data-plan="Mensual" data-nombre="maria gonzalez" data-rut="16.222.333-4" style="border-bottom:1px #F1F5F9 solid"><td style="padding:16px 20px; display:flex; gap:12px; align-items:center"><span style="width:36px; height:36px; background:#EFF6FF; border-radius:999px; display:grid; place-items:center; font-weight:700; font-size:12px; color:#2563EB">MG</span><span style="font-weight:700; color:#1E293B">María González</span></td><td style="padding:16px 20px; font-size:13px">16.222.333-4</td><td style="padding:16px 20px; font-size:13px; color:#64748B">maria@mail.cl</td><td style="padding:16px 20px"><span style="background:#EFF6FF; color:#2563EB; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:800; border:1px #E2E8F0 solid">Plan Mensual</span></td><td style="padding:16px 20px"><button style="padding:6px 10px; background:white; border:1px #E2E8F0 solid; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer">Editar</button> <button style="padding:6px 10px; background:white; border:1px #FEE2E2 solid; color:#DC2626; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer">Eliminar</button></td></tr>
+        <tr data-plan="Trimestral" data-nombre="pedro soto" data-rut="19.888.777-6"><td style="padding:16px 20px; display:flex; gap:12px; align-items:center"><span style="width:36px; height:36px; background:#FEF3C7; border-radius:999px; display:grid; place-items:center; font-weight:700; font-size:12px; color:#D97706">PS</span><span style="font-weight:700; color:#1E293B">Pedro Soto</span></td><td style="padding:16px 20px; font-size:13px">19.888.777-6</td><td style="padding:16px 20px; font-size:13px; color:#64748B">pedro@mail.cl</td><td style="padding:16px 20px"><span style="background:#FEF3C7; color:#D97706; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:800">Plan Trimestral</span></td><td style="padding:16px 20px"><button style="padding:6px 10px; background:white; border:1px #E2E8F0 solid; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer">Editar</button> <button style="padding:6px 10px; background:white; border:1px #FEE2E2 solid; color:#DC2626; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer">Eliminar</button></td></tr>
+      </tbody>
+    </table>
+    <div id="empty-socios" style="display:none; padding:40px; text-align:center; color:#64748B">No se encontraron socios registrados</div>
+  </div>
+</section>
+
+<!-- MOCKUP 4: CLASES (fiel plantilla) -->
+<section id="view-clases" class="section" style="background:#F8F9FA; padding:40px; gap:24px">
+  <div style="display:flex; flex-direction:column; gap:6px"><div style="color:#1E293B; font-size:34px; font-weight:800">Clases e Instructores</div><div style="color:#64748B; font-size:14px">Monitorea horarios, instructores y capacidad disponible.</div></div>
+  <div class="clases-grid" style="display:flex; gap:20px">
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start"><div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center">🧘</div></div>
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Yoga</div><div style="color:#64748B; font-size:14px">Instructor: Ana Torres</div><div style="color:#64748B; font-size:13px">Capacidad: 20 personas</div>
+      <div style="display:flex; flex-direction:column; gap:8px"><div style="color:#1E293B; font-size:13px; font-weight:700">12/20 ocupados</div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:60%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+      <button onclick="toast('Inscritos Yoga: 12')" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; color:#1E293B; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Ver Lista de Inscritos</button>
+    </div>
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center">🏃</div>
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Running</div><div style="color:#64748B; font-size:14px">Instructor: Carlos Rojas</div><div style="color:#64748B; font-size:13px">Capacidad: 30 personas</div>
+      <div style="display:flex; flex-direction:column; gap:8px"><div style="color:#1E293B; font-size:13px; font-weight:700">18/30 ocupados</div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:60%; height:8px; background:#2563EB; border-radius:999px"></div></div></div>
+      <button onclick="toast('Inscritos Running: 18')" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; color:#1E293B; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Ver Lista de Inscritos</button>
+    </div>
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start"><div style="width:44px; height:44px; background:#EFF6FF; border-radius:10px; display:grid; place-items:center">🏋️</div><div style="background:#FEE2E2; padding:5px 9px; border-radius:999px"><span style="color:#DC2626; font-size:11px; font-weight:800">LLENO</span></div></div>
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Pesas</div><div style="color:#64748B; font-size:14px">Instructor: Jorge Muñoz</div><div style="color:#64748B; font-size:13px">Capacidad: 25 personas</div>
+      <div style="display:flex; flex-direction:column; gap:8px"><div style="color:#DC2626; font-size:13px; font-weight:700">25/25 ocupados</div><div style="height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden"><div style="width:100%; height:8px; background:#DC2626; border-radius:999px"></div></div></div>
+      <button onclick="toast('Clase llena — lista de espera')" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; color:#1E293B; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">Ver Lista de Inscritos</button>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUP 5: INSCRIPCIONES -->
+<section id="view-inscripciones" class="section" style="background:#F8F9FA; padding:40px; gap:24px">
+  <div style="display:flex; justify-content:space-between; align-items:center"><div style="display:flex; flex-direction:column; gap:6px"><div style="color:#1E293B; font-size:34px; font-weight:800">Registro de Inscripciones</div><div style="color:#64748B; font-size:14px">Control de asistencia y estados.</div></div><button onclick="openModal('modal-ins')" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter">+ Nueva Inscripción</button></div>
+  <div style="display:flex; gap:12px; background:white; border:1px #E2E8F0 solid; border-radius:14px; padding:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04)">
+    <select id="f-estado" onchange="filtrarIns()" style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"><option value="todos">Estado: Todos</option><option>ACTIVA</option><option>CANCELADA</option><option>FINALIZADA</option></select>
+    <select id="f-clase" onchange="filtrarIns()" style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"><option value="todos">Clase: Todas</option><option>Yoga</option><option>Running</option><option>Pesas</option></select>
+    <input type="date" style="height:40px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px">
+  </div>
+  <div style="background:white; border:1px #E2E8F0 solid; border-radius:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04); overflow:auto; -webkit-overflow-scrolling:touch">
+    <table style="width:100%; border-collapse:collapse"><thead><tr style="background:#F8F9FA"><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">ID</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Fecha</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Socio</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Clase</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Estado</th><th style="text-align:left; padding:14px 20px; font-size:11px; font-weight:700; color:#64748B; border-bottom:1px #E2E8F0 solid">Acciones</th></tr></thead>
+      <tbody id="tabla-ins">
+        <tr data-estado="ACTIVA" data-clase="Yoga"><td style="padding:16px 20px; font-weight:700">#101</td><td style="padding:16px 20px; font-size:13px">15/09/2026</td><td style="padding:16px 20px">Juan Pérez</td><td style="padding:16px 20px">Yoga</td><td style="padding:16px 20px"><span style="background:#DCFCE7; color:#16A34A; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">ACTIVA</span></td><td style="padding:16px 20px"><button style="padding:6px 10px; background:white; border:1px #E2E8F0 solid; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer">Cancelar</button></td></tr>
+        <tr data-estado="FINALIZADA" data-clase="Pesas"><td style="padding:16px 20px; font-weight:700">#100</td><td style="padding:16px 20px; font-size:13px">10/09/2026</td><td style="padding:16px 20px">Pedro Soto</td><td style="padding:16px 20px">Pesas</td><td style="padding:16px 20px"><span style="background:#F1F5F9; color:#64748B; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800; border:1px #E2E8F0 solid">FINALIZADA</span></td><td style="padding:16px 20px"><span style="color:#94A3B8; font-size:12px">—</span></td></tr>
+        <tr data-estado="CANCELADA" data-clase="Yoga"><td style="padding:16px 20px; font-weight:700">#099</td><td style="padding:16px 20px; font-size:13px">08/09/2026</td><td style="padding:16px 20px">Ana Torres</td><td style="padding:16px 20px">Yoga</td><td style="padding:16px 20px"><span style="background:#FEE2E2; color:#DC2626; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">CANCELADA</span></td><td style="padding:16px 20px"><span style="color:#94A3B8; font-size:12px">—</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- MOCKUP 6: DETALLE (fiel plantilla) -->
+<section id="view-detalle" class="section" style="background:#F8F9FA; padding:40px; gap:24px">
+  <div style="display:flex; flex-direction:column; gap:6px"><div style="color:#1E293B; font-size:34px; font-weight:800">Detalle de Socio</div><div style="color:#64748B; font-size:14px">Información, plan e historial de Juan Pérez.</div></div>
+  <div style="padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+    <div style="display:flex; align-items:center; gap:16px"><div style="width:52px; height:52px; background:#EFF6FF; border-radius:999px; display:grid; place-items:center"><span style="color:#2563EB; font-size:20px; font-weight:800">JP</span></div><div><div style="color:#1E293B; font-size:20px; font-weight:800">Detalle de Socio - Juan Pérez</div><div style="color:#64748B; font-size:13px">RUT 12.345.678-9</div></div></div>
+    <div style="display:flex; gap:16px">
+      <div style="flex:1; padding:14px; background:#F1F5F9; border-radius:10px"><span style="color:#1E293B; font-size:13px; font-weight:700">Email: juan@mail.cl</span></div>
+      <div style="flex:1; padding:14px; background:#F1F5F9; border-radius:10px"><span style="color:#1E293B; font-size:13px; font-weight:700">Plan Anual</span></div>
+      <div style="flex:1; padding:14px; background:#F1F5F9; border-radius:10px"><span style="color:#1E293B; font-size:13px; font-weight:700">Costo diario: $767/día</span></div>
+    </div>
+  </div>
+  <div class="detalle-cols" style="display:flex; gap:24px">
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">Historial de Inscripciones del Socio</div>
+      <div style="display:flex; flex-direction:column">
+        <div style="display:flex; gap:16px; padding:14px 16px; background:#F1F5F9; border-bottom:1px #E2E8F0 solid"><span style="flex:1; color:#64748B; font-size:13px; font-weight:700">Clase</span><span style="flex:1; color:#64748B; font-size:13px; font-weight:700">Fecha</span><span style="flex:1; color:#64748B; font-size:13px; font-weight:700">Estado</span></div>
+        <div style="display:flex; gap:16px; padding:14px 16px; border-bottom:1px #E2E8F0 solid; align-items:center"><span style="flex:1; color:#1E293B; font-size:13px">Yoga</span><span style="flex:1; color:#1E293B; font-size:13px">15/09/2026</span><span style="flex:1"><span style="background:#DCFCE7; color:#16A34A; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">ACTIVA</span></span></div>
+        <div style="display:flex; gap:16px; padding:14px 16px; border-bottom:1px #E2E8F0 solid; align-items:center"><span style="flex:1; color:#1E293B; font-size:13px">Running</span><span style="flex:1; color:#1E293B; font-size:13px">08/09/2026</span><span style="flex:1"><span style="background:#F1F5F9; color:#64748B; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800; border:1px #E2E8F0 solid">FINALIZADA</span></span></div>
+        <div style="display:flex; gap:16px; padding:14px 16px; align-items:center"><span style="flex:1; color:#1E293B; font-size:13px">Pesas</span><span style="flex:1; color:#1E293B; font-size:13px">01/09/2026</span><span style="flex:1"><span style="background:#FEE2E2; color:#DC2626; padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800">CANCELADA</span></span></div>
+      </div>
+    </div>
+    <div style="flex:1; padding:24px; background:white; box-shadow:0px 2px 10px rgba(15,23,42,0.04); border-radius:14px; border:1px #E2E8F0 solid; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:20px; font-weight:800">+ Inscribir a Nueva Clase</div>
+      <div style="display:flex; flex-direction:column; gap:6px"><span style="color:#1E293B; font-size:13px; font-weight:700">Seleccionar Clase</span><div style="padding:11px 12px; background:white; border:1px #E2E8F0 solid; border-radius:10px"><span style="color:#1E293B; font-size:14px">Yoga — Ana Torres — 8 cupos disponibles</span></div></div>
+      <div style="display:flex; gap:8px; align-items:center"><span style="color:#16A34A; font-size:13px">Se verificará la capacidad máxima antes de confirmar.</span></div>
+      <button onclick="toast('Inscripción confirmada')" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:Inter; align-self:flex-start">Confirmar Inscripción</button>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- Modales -->
+<div id="modal-socio" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,.48); backdrop-filter:blur(4px); align-items:center; justify-content:center; z-index:60; padding:20px" onclick="if(event.target===this) closeModal('modal-socio')">
+  <div style="width:520px; max-width:100%; background:white; border-radius:14px; border:1px #E2E8F0 solid; overflow:hidden; box-shadow:0 20px 60px rgba(15,23,42,.18)">
+    <div style="padding:20px 24px; border-bottom:1px #E2E8F0 solid; display:flex; justify-content:space-between; align-items:center"><span style="font-weight:800; color:#1E293B">Registrar Nuevo Socio</span><button onclick="closeModal('modal-socio')" style="background:white; border:1px #E2E8F0 solid; border-radius:8px; padding:6px 10px; cursor:pointer">✕</button></div>
+    <div style="padding:20px 24px; display:flex; flex-direction:column; gap:14px">
+      <div style="display:flex; flex-direction:column; gap:6px"><span style="font-size:11px; font-weight:700; color:#64748B; letter-spacing:.04em">NOMBRE</span><input id="inp-nombre" placeholder="Ej: Juan Pérez" style="height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"></div>
+      <div style="display:flex; flex-direction:column; gap:6px"><span style="font-size:11px; font-weight:700; color:#64748B">RUT</span><input id="inp-rut" placeholder="12.345.678-9" oninput="validarRut(this)" style="height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"><span id="err-rut" style="display:none; color:#DC2626; font-size:12px; font-weight:600">Formato de RUT o duplicado no permitido</span></div>
+      <div style="display:flex; flex-direction:column; gap:6px"><span style="font-size:11px; font-weight:700; color:#64748B">EMAIL</span><input placeholder="juan@mail.cl" style="height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"></div>
+      <div style="display:flex; flex-direction:column; gap:6px"><span style="font-size:11px; font-weight:700; color:#64748B">PLAN</span><select style="height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"><option>Plan Mensual $30.000</option><option>Plan Trimestral $80.000</option><option>Plan Semestral $150.000</option><option selected>Plan Anual $280.000</option></select></div>
+    </div>
+    <div style="padding:16px 24px; background:#F8F9FA; display:flex; justify-content:flex-end; gap:10px; border-top:1px #E2E8F0 solid"><button onclick="closeModal('modal-socio')" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; font-weight:700; cursor:pointer">Cancelar</button><button onclick="guardarSocio()" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-weight:700; cursor:pointer">Guardar Socio</button></div>
+  </div>
+</div>
+
+<div id="modal-ins" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,.48); backdrop-filter:blur(4px); align-items:center; justify-content:center; z-index:60; padding:20px" onclick="if(event.target===this) closeModal('modal-ins')">
+  <div style="width:520px; max-width:100%; background:white; border-radius:14px; border:1px #E2E8F0 solid; overflow:hidden">
+    <div style="padding:20px 24px; border-bottom:1px #E2E8F0 solid; display:flex; justify-content:space-between; align-items:center"><span style="font-weight:800; color:#1E293B">Nueva Inscripción</span><button onclick="closeModal('modal-ins')" style="background:white; border:1px #E2E8F0 solid; border-radius:8px; padding:6px 10px; cursor:pointer">✕</button></div>
+    <div style="padding:20px 24px; display:flex; flex-direction:column; gap:14px">
+      <div style="display:flex; flex-direction:column; gap:6px"><span style="font-size:11px; font-weight:700; color:#64748B">SOCIO</span><select style="height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"><option>Juan Pérez — 12.345.678-9</option></select></div>
+      <div style="display:flex; flex-direction:column; gap:6px"><span style="font-size:11px; font-weight:700; color:#64748B">CLASE</span><select id="sel-clase" onchange="checkCap(this)" style="height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px"><option value="Yoga">Yoga — 12/20 (8 libres)</option><option value="Running">Running — 18/30 (12 libres)</option><option value="Pesas">Pesas — 25/25 (LLENO)</option></select><span id="err-cap" style="display:none; color:#DC2626; font-size:12px; font-weight:600">Capacidad máxima alcanzada — clase llena</span></div>
+    </div>
+    <div style="padding:16px 24px; background:#F8F9FA; display:flex; justify-content:flex-end; gap:10px; border-top:1px #E2E8F0 solid"><button onclick="closeModal('modal-ins')" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; font-weight:700; cursor:pointer">Cancelar</button><button onclick="toast('Inscripción creada'); closeModal('modal-ins')" style="padding:10px 16px; background:#2563EB; border:none; border-radius:10px; color:white; font-weight:700; cursor:pointer">Inscribir</button></div>
+  </div>
+</div>
+
+<div id="toast" style="position:fixed; bottom:20px; right:20px; background:#1E293B; color:white; padding:12px 16px; border-radius:10px; font-size:13px; font-weight:600; display:none; z-index:70; box-shadow:0 8px 24px rgba(0,0,0,.2)"></div>
+
+<script>
+function navigate(view){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('view-'+view); if(el) el.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(a=>{
+    const is=a.dataset.view===view;
+    a.style.color=is?'#2563EB':'#64748B';
+    a.style.fontWeight=is?'700':'500';
+    a.style.borderBottom=is?'2px solid #2563EB':'none';
+    a.style.paddingBottom=is?'2px':'0';
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function filtrarSocios(){
+  const plan=document.getElementById('filtro-plan').value.toLowerCase();
+  const q=document.getElementById('busca-socio').value.toLowerCase();
+  let vis=0;
+  document.querySelectorAll('#tabla-socios tr').forEach(r=>{
+    const okPlan=plan==='todos'||r.dataset.plan.toLowerCase()===plan;
+    const okQ=!q||r.dataset.nombre.includes(q)||r.dataset.rut.includes(q);
+    const show=okPlan&&okQ; r.style.display=show?'':'none'; if(show) vis++;
+  });
+  document.getElementById('empty-socios').style.display=vis===0?'block':'none';
+}
+function filtrarIns(){
+  const e=document.getElementById('f-estado').value;
+  const c=document.getElementById('f-clase').value;
+  document.querySelectorAll('#tabla-ins tr').forEach(r=>{
+    const okE=e==='todos'||r.dataset.estado===e;
+    const okC=c==='todos'||r.dataset.clase===c;
+    r.style.display=(okE&&okC)?'':'none';
+  });
+}
+function openModal(id){document.getElementById(id).style.display='flex'}
+function closeModal(id){document.getElementById(id).style.display='none'}
+function validarRut(el){
+  const err=document.getElementById('err-rut');
+  const dup=['12.345.678-9','16.222.333-4'].includes(el.value.trim());
+  const bad=el.value && !el.value.includes('-');
+  if(dup||bad){el.style.borderColor='#DC2626'; el.style.background='#FEE2E2'; err.style.display='block'} else {el.style.borderColor='#E2E8F0'; el.style.background='white'; err.style.display='none'}
+}
+function guardarSocio(){
+  const rut=document.getElementById('inp-rut');
+  if(document.getElementById('err-rut').style.display==='block'){toast('Corrige el RUT'); rut.focus(); return}
+  if(!document.getElementById('inp-nombre').value.trim()||!rut.value.trim()){toast('Completa nombre y RUT'); return}
+  toast('Socio guardado ✓'); closeModal('modal-socio');
+}
+function checkCap(sel){
+  const err=document.getElementById('err-cap');
+  if(sel.value==='Pesas'){err.style.display='block'; sel.style.borderColor='#DC2626'} else {err.style.display='none'; sel.style.borderColor='#E2E8F0'}
+}
+let tmr;
+function toast(m){const t=document.getElementById('toast'); t.textContent=m; t.style.display='block'; clearTimeout(tmr); tmr=setTimeout(()=>t.style.display='none',2200)}
+</script>
+</body>
+</html>

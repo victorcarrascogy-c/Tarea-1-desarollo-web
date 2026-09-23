@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Plan — {{ socio.nombre }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0; font-family:'Inter',sans-serif; background:#1E1E1E}
+.page{max-width:1100px; margin:0 auto; background:#F8F9FA; min-height:100vh}
+.header{height:72px; padding:0 40px; background:white; border-bottom:1px #E2E8F0 solid; display:flex; justify-content:space-between; align-items:center}
+.card{background:white; border:1px #E2E8F0 solid; border-radius:14px; box-shadow:0px 2px 10px rgba(15,23,42,0.04)}
+.btn{height:42px; padding:0 18px; border-radius:10px; border:none; font-weight:700; cursor:pointer; font-family:Inter}
+.btn-primary{background:#2563EB; color:white}
+.btn-soft{background:#EFF6FF; color:#2563EB; border:1px #BFDBFE solid}
+.badge{padding:5px 10px; border-radius:999px; font-size:11px; font-weight:800}
+.badge-ok{background:#DCFCE7; color:#16A34A}
+.badge-warn{background:#FEF3C7; color:#D97706}
+.badge-err{background:#FEE2E2; color:#DC2626}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="header">
+  <div style="display:flex; align-items:center; gap:10px"><div style="width:34px; height:34px; background:#16A34A; border-radius:10px; display:grid; place-items:center; color:white; font-weight:800">◆</div><span style="font-weight:800; color:#1E293B">SportCross Cliente</span><span style="color:#94A3B8; font-size:13px">· Hola, {{ socio.nombre }}</span></div>
+  <div style="display:flex; gap:10px; align-items:center"><span style="color:#64748B; font-size:13px">RUT {{ socio.rut }}</span><a href="{% url 'Gimnasio:logout' %}" style="padding:10px 16px; background:white; border:1px #E2E8F0 solid; border-radius:10px; color:#1E293B; font-weight:700; text-decoration:none; font-size:13px">Cerrar Sesión</a></div>
+</header>
+
+<div style="padding:32px 40px; display:flex; flex-direction:column; gap:24px">
+  {% if messages %}{% for m in messages %}<div style="padding:12px 16px; background:{% if m.tags == 'error' %}#FEE2E2; color:#7F1D1D; border:1px #FECACA solid{% else %}#DCFCE7; color:#14532D; border:1px #86EFAC solid{% endif %}; border-radius:10px; font-weight:600; font-size:13px">{{ m }}</div>{% endfor %}{% endif %}
+
+  <div style="display:flex; flex-direction:column; gap:6px"><div style="font-size:28px; font-weight:800; color:#1E293B">Hola, {{ socio.nombre }} 👋</div><div style="color:#64748B; font-size:14px">Este es tu espacio cliente — solo puedes ver y pagar tu plan.</div></div>
+
+  <!-- Plan card grande -->
+  <div class="card" style="padding:24px; display:flex; flex-direction:column; gap:16px; border:1px #2563EB solid; box-shadow:0 0 0 1px #2563EB, 0px 2px 10px rgba(15,23,42,0.04)">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px">
+      <div>
+        <div style="color:#1E293B; font-size:22px; font-weight:800">Plan {{ socio.plan.nombre }}</div>
+        <div style="margin-top:6px"><span style="color:#2563EB; font-size:30px; font-weight:800">${{ socio.plan.precio }}</span> <span style="color:#64748B">/ {{ socio.plan.duracion_dias }} días</span></div>
+        <div style="margin-top:8px; background:#F1F5F9; border:1px #E2E8F0 solid; border-radius:10px; padding:10px 12px; display:inline-flex; gap:8px; font-size:13px"><span style="color:#64748B">Costo diario</span><strong style="color:#1E293B">${{ socio.plan.costo_diario }}/día</strong></div>
+      </div>
+      <div style="text-align:right">
+        {% if ultimo_pago %}<div style="background:#DCFCE7; color:#16A34A; padding:8px 12px; border-radius:999px; font-size:12px; font-weight:800; border:1px #86EFAC solid">✓ PAGADO {{ ultimo_pago }}</div><div style="color:#64748B; font-size:12px; margin-top:6px">Gracias por tu pago</div>{% else %}<div style="background:#FEE2E2; color:#DC2626; padding:8px 12px; border-radius:999px; font-size:12px; font-weight:800; border:1px #FECACA solid">● PENDIENTE</div><div style="color:#64748B; font-size:12px; margin-top:6px">Tienes un pago pendiente</div>{% endif %}
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap">
+      <form method="post" action="{% url 'Gimnasio:cliente_pagar' %}" style="display:inline">{% csrf_token %}<button type="submit" class="btn btn-primary" style="background:{% if ultimo_pago %}#16A34A{% else %}#2563EB{% endif %}">{% if ultimo_pago %}Pagar de nuevo{% else %}Pagar mi plan — ${{ socio.plan.precio }}{% endif %}</button></form>
+      <span style="align-self:center; color:#94A3B8; font-size:12px">Pago demo — simula transacción, guarda en sesión.</span>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:13px; color:#64748B">
+      <span>✓ Acceso completo</span><span>·</span><span>✓ Clases grupales</span><span>·</span><span>✓ Evaluación inicial</span>
+    </div>
+  </div>
+
+  <!-- Dos columnas -->
+  <div style="display:flex; gap:24px; flex-wrap:wrap">
+    <div class="card" style="flex:1; min-width:340px; padding:24px; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:18px; font-weight:800">Mis datos</div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="padding:12px; background:#F1F5F9; border-radius:10px; border:1px #E2E8F0 solid"><div style="font-size:11px; font-weight:700; color:#64748B">RUT</div><div style="font-weight:700; color:#1E293B">{{ socio.rut }}</div></div>
+        <div style="padding:12px; background:#F1F5F9; border-radius:10px; border:1px #E2E8F0 solid"><div style="font-size:11px; font-weight:700; color:#64748B">EMAIL</div><div style="font-weight:700; color:#1E293B">{{ socio.email }}</div></div>
+        <div style="padding:12px; background:#F1F5F9; border-radius:10px; border:1px #E2E8F0 solid"><div style="font-size:11px; font-weight:700; color:#64748B">PLAN</div><div style="font-weight:700; color:#1E293B">Plan {{ socio.plan.nombre }} · {{ socio.plan.duracion_dias }} días</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:340px; padding:24px; display:flex; flex-direction:column; gap:16px">
+      <div style="color:#1E293B; font-size:18px; font-weight:800">Mis inscripciones ({{ inscripciones|length }})</div>
+      {% if inscripciones %}
+      <div style="display:flex; flex-direction:column; gap:10px">
+        {% for ins in inscripciones %}
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px #E2E8F0 solid; border-radius:10px; background:white">
+          <div><div style="font-weight:700; color:#1E293B">{{ ins.clase.nombre }} — {{ ins.clase.instructor }}</div><div style="color:#64748B; font-size:12px">{{ ins.fecha_inscripcion|date:"d/m/Y" }}</div></div>
+          {% if ins.estado == 'ACTIVA' %}<span class="badge badge-ok">ACTIVA</span>{% elif ins.estado == 'CANCELADA' %}<span class="badge badge-err">CANCELADA</span>{% else %}<span class="badge" style="background:#F1F5F9; color:#64748B; border:1px #E2E8F0 solid">FINALIZADA</span>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}<div style="padding:20px; text-align:center; color:#64748B; border:1px #E2E8F0 dashed; border-radius:10px; font-size:13px">Aún no estás inscrito en clases. Abajo puedes inscribirte.</div>{% endif %}
+      <form method="post" action="{% url 'Gimnasio:cliente_inscribir' %}" style="display:flex; gap:10px; align-items:end; flex-wrap:wrap">
+        {% csrf_token %}
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px"><label style="font-size:11px; font-weight:700; color:#64748B">INSCRIBIRME EN</label>
+          <select name="clase" required style="height:42px; border:1px #E2E8F0 solid; border-radius:10px; padding:0 12px; font-size:13px">
+            {% for c in clases_disponibles %}<option value="{{ c.pk }}">{{ c.nombre }} — {{ c.instructor }} ({{ c.capacidad_maxima }} cupos)</option>{% endfor %}
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Inscribirme</button>
+      </form>
+      <div style="font-size:11px; color:#94A3B8">Se verificará capacidad máxima (ACTIVA) antes de confirmar.</div>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>
